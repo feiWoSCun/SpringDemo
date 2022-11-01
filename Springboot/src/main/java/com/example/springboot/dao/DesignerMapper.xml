@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.dao.PlayerMapper">
+    <insert id="addDesigner" parameterType="designer">
+        insert into practice.designer (number, id, name, time, salary)
+        values (#{number}, #{id}, #{name}, #{time}, #{salary});
+    </insert>
+    <delete id="deleteDesigner" parameterType="int">
+        delete
+        from practice.designer
+        where id = #{id};
+    </delete>
+    <select id="getPlayer" resultMap="playerMap">
+        select *
+        from player ;
+    </select>
+    <resultMap id="playerMap" type="com.example.springboot.pojo.Player">
+        <association property="department" column="number" javaType="com.example.springboot.pojo.Department" select="getDepartment"></association>
+    </resultMap>
+    <select id="getDepartment" resultType="Department">
+        select * from department where number=#{id};
+    </select>
+</mapper>

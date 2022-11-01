@@ -1,0 +1,6 @@
+Person:
+  name: luobin
+  happy: false
+  age: 20
+server:
+  port: 8082

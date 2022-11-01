@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="test" class="SpringTest.SpringTest01">
+    <!--在spring配置文件中配置对象时创建，必须提供无参构造，此时通过set方法注入属性,此时的name名必须和set方法后缀保持一致-->
+    <property name="NAME" >
+        <value><![CDATA[<<罗彬>>]]></value>
+<!--        //注意，两个value标签中如果有空格，或者提行，都会被算入的-->
+<!--        //如：-->
+<!--        //<value>   -->
+<!--        //<![CDATA[<<罗彬>>]]>-->
+<!--    //</value>-->
+<!--        //也就是说，两个value之间必须挨着，不要有空格和提行-->
+    </property>
+    <property name="age" value="18"></property>
+
+</bean>
+    <bean id="test02" class="SpringTest02.SpringTest02">
+        <constructor-arg name="name" value="罗彬"></constructor-arg>
+        <constructor-arg name="aeg" value="12"></constructor-arg>
+        <!--在spring配置文件中配置对象时创建，必须提供无参构造，此时通过有参构造注入属性-->
+    </bean>
+
+<!--/////级联赋值-->
+    <!--//下面这俩个豌豆，是把引用数据类型，弄到另一个对象的properties中，也就是另一个对象的成员变量中。就是把value变成了ref
+    //这是外部bean注入属性
+    -->
+<!--<bean id="bird" class="SpringTest03.Bird">
+</bean>
+<bean id="test03" class="SpringTest03.Test">
+    <property name="bird" ref="bird"></property>
+</bean>-->
+<!--//内部bean注入属性，-->
+    <bean id="test0301" class="SpringTest03.Test">
+        <property name="bird">
+          <bean id="bird" class="SpringTest03.Bird"></bean>
+        </property>
+
+    </bean>
+
+    <!--//下面这个是次联赋值，赋值的是一个对象数组的情况
+    如果是给对象赋值的话，用ref把豌豆里面的id弄进来
+    如果集合里是普通类型，就用<list>
+    <value>
+    值
+    </value>
+    </list>
+    -->
+<bean id="test04" class="SpringTest04.Animal">
+    <property name="cat" >
+        <list>
+            <ref bean="test0401"></ref>
+            <ref bean="test0402"></ref>
+        </list>
+    </property>
+</bean>
+    <bean id="test0401" class="SpringTest04.Cat">
+        <property name="name" value="小猫咪"></property>
+    </bean>
+
+    <bean id="test0402" class="SpringTest04.Cat">
+        <property name="name" value="大猫咪"></property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+    <!--自动扫描以下包-->
+    <context:component-scan base-package="Service"></context:component-scan>
+   <!-- 让mvc不处理静态资源-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!--
+    支持mvc注解驱动
+    在spring中一般采用@RequestMapping.注解来完成映射关系
+    要想使@RequestMapping.注解生效
+    必须向上下文中注DefaultAnnotationHandlerMapping
+    和一个AnnotationMethodHandlerAdapter实例
+    这两个实例分别在类级别和方法级别处理。
+    而annotation-driven置帮助我]自动完成上述两个实例的注入。-->
+    <mvc:annotation-driven>
+        <!--json乱码问题-->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                        <property name="failOnEmptyBeans" value="false"></property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver " id="internalResourceViewResolver">
+        <property name="prefix" value=""></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+</beans>
